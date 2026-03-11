@@ -52,10 +52,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido
+CMAKE_SOURCE_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build
+CMAKE_BINARY_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/TriangleTex.dir/depend.make
@@ -73,33 +73,33 @@ CMakeFiles/TriangleTex.dir/codegen:
 
 CMakeFiles/TriangleTex.dir/src/TriangleTex.cpp.obj: CMakeFiles/TriangleTex.dir/flags.make
 CMakeFiles/TriangleTex.dir/src/TriangleTex.cpp.obj: CMakeFiles/TriangleTex.dir/includes_CXX.rsp
-CMakeFiles/TriangleTex.dir/src/TriangleTex.cpp.obj: C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/CGCCHibrido/src/TriangleTex.cpp
+CMakeFiles/TriangleTex.dir/src/TriangleTex.cpp.obj: C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/src/TriangleTex.cpp
 CMakeFiles/TriangleTex.dir/src/TriangleTex.cpp.obj: CMakeFiles/TriangleTex.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/TriangleTex.dir/src/TriangleTex.cpp.obj"
-	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TriangleTex.dir/src/TriangleTex.cpp.obj -MF CMakeFiles\TriangleTex.dir\src\TriangleTex.cpp.obj.d -o CMakeFiles\TriangleTex.dir\src\TriangleTex.cpp.obj -c C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\src\TriangleTex.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/TriangleTex.dir/src/TriangleTex.cpp.obj"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/TriangleTex.dir/src/TriangleTex.cpp.obj -MF CMakeFiles\TriangleTex.dir\src\TriangleTex.cpp.obj.d -o CMakeFiles\TriangleTex.dir\src\TriangleTex.cpp.obj -c C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\src\TriangleTex.cpp
 
 CMakeFiles/TriangleTex.dir/src/TriangleTex.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/TriangleTex.dir/src/TriangleTex.cpp.i"
-	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\src\TriangleTex.cpp > CMakeFiles\TriangleTex.dir\src\TriangleTex.cpp.i
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\src\TriangleTex.cpp > CMakeFiles\TriangleTex.dir\src\TriangleTex.cpp.i
 
 CMakeFiles/TriangleTex.dir/src/TriangleTex.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/TriangleTex.dir/src/TriangleTex.cpp.s"
-	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\src\TriangleTex.cpp -o CMakeFiles\TriangleTex.dir\src\TriangleTex.cpp.s
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\src\TriangleTex.cpp -o CMakeFiles\TriangleTex.dir\src\TriangleTex.cpp.s
 
 CMakeFiles/TriangleTex.dir/common/glad.c.obj: CMakeFiles/TriangleTex.dir/flags.make
 CMakeFiles/TriangleTex.dir/common/glad.c.obj: CMakeFiles/TriangleTex.dir/includes_C.rsp
-CMakeFiles/TriangleTex.dir/common/glad.c.obj: C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/CGCCHibrido/common/glad.c
+CMakeFiles/TriangleTex.dir/common/glad.c.obj: C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/common/glad.c
 CMakeFiles/TriangleTex.dir/common/glad.c.obj: CMakeFiles/TriangleTex.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/TriangleTex.dir/common/glad.c.obj"
-	C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/TriangleTex.dir/common/glad.c.obj -MF CMakeFiles\TriangleTex.dir\common\glad.c.obj.d -o CMakeFiles\TriangleTex.dir\common\glad.c.obj -c C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\common\glad.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/TriangleTex.dir/common/glad.c.obj"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/TriangleTex.dir/common/glad.c.obj -MF CMakeFiles\TriangleTex.dir\common\glad.c.obj.d -o CMakeFiles\TriangleTex.dir\common\glad.c.obj -c C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\common\glad.c
 
 CMakeFiles/TriangleTex.dir/common/glad.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/TriangleTex.dir/common/glad.c.i"
-	C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\common\glad.c > CMakeFiles\TriangleTex.dir\common\glad.c.i
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\common\glad.c > CMakeFiles\TriangleTex.dir\common\glad.c.i
 
 CMakeFiles/TriangleTex.dir/common/glad.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/TriangleTex.dir/common/glad.c.s"
-	C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\common\glad.c -o CMakeFiles\TriangleTex.dir\common\glad.c.s
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\common\glad.c -o CMakeFiles\TriangleTex.dir\common\glad.c.s
 
 # Object files for target TriangleTex
 TriangleTex_OBJECTS = \
@@ -116,7 +116,7 @@ TriangleTex.exe: _deps/glfw-build/src/libglfw3.a
 TriangleTex.exe: CMakeFiles/TriangleTex.dir/linkLibs.rsp
 TriangleTex.exe: CMakeFiles/TriangleTex.dir/objects1.rsp
 TriangleTex.exe: CMakeFiles/TriangleTex.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable TriangleTex.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable TriangleTex.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\TriangleTex.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -128,6 +128,6 @@ CMakeFiles/TriangleTex.dir/clean:
 .PHONY : CMakeFiles/TriangleTex.dir/clean
 
 CMakeFiles/TriangleTex.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\CMakeFiles\TriangleTex.dir\DependInfo.cmake "--color=$(COLOR)" TriangleTex
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\CMakeFiles\TriangleTex.dir\DependInfo.cmake "--color=$(COLOR)" TriangleTex
 .PHONY : CMakeFiles/TriangleTex.dir/depend
 

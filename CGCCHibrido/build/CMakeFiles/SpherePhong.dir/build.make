@@ -52,10 +52,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido
+CMAKE_SOURCE_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build
+CMAKE_BINARY_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/SpherePhong.dir/depend.make
@@ -73,33 +73,33 @@ CMakeFiles/SpherePhong.dir/codegen:
 
 CMakeFiles/SpherePhong.dir/src/SpherePhong.cpp.obj: CMakeFiles/SpherePhong.dir/flags.make
 CMakeFiles/SpherePhong.dir/src/SpherePhong.cpp.obj: CMakeFiles/SpherePhong.dir/includes_CXX.rsp
-CMakeFiles/SpherePhong.dir/src/SpherePhong.cpp.obj: C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/CGCCHibrido/src/SpherePhong.cpp
+CMakeFiles/SpherePhong.dir/src/SpherePhong.cpp.obj: C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/src/SpherePhong.cpp
 CMakeFiles/SpherePhong.dir/src/SpherePhong.cpp.obj: CMakeFiles/SpherePhong.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/SpherePhong.dir/src/SpherePhong.cpp.obj"
-	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SpherePhong.dir/src/SpherePhong.cpp.obj -MF CMakeFiles\SpherePhong.dir\src\SpherePhong.cpp.obj.d -o CMakeFiles\SpherePhong.dir\src\SpherePhong.cpp.obj -c C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\src\SpherePhong.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/SpherePhong.dir/src/SpherePhong.cpp.obj"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SpherePhong.dir/src/SpherePhong.cpp.obj -MF CMakeFiles\SpherePhong.dir\src\SpherePhong.cpp.obj.d -o CMakeFiles\SpherePhong.dir\src\SpherePhong.cpp.obj -c C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\src\SpherePhong.cpp
 
 CMakeFiles/SpherePhong.dir/src/SpherePhong.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SpherePhong.dir/src/SpherePhong.cpp.i"
-	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\src\SpherePhong.cpp > CMakeFiles\SpherePhong.dir\src\SpherePhong.cpp.i
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\src\SpherePhong.cpp > CMakeFiles\SpherePhong.dir\src\SpherePhong.cpp.i
 
 CMakeFiles/SpherePhong.dir/src/SpherePhong.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SpherePhong.dir/src/SpherePhong.cpp.s"
-	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\src\SpherePhong.cpp -o CMakeFiles\SpherePhong.dir\src\SpherePhong.cpp.s
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\src\SpherePhong.cpp -o CMakeFiles\SpherePhong.dir\src\SpherePhong.cpp.s
 
 CMakeFiles/SpherePhong.dir/common/glad.c.obj: CMakeFiles/SpherePhong.dir/flags.make
 CMakeFiles/SpherePhong.dir/common/glad.c.obj: CMakeFiles/SpherePhong.dir/includes_C.rsp
-CMakeFiles/SpherePhong.dir/common/glad.c.obj: C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/CGCCHibrido/common/glad.c
+CMakeFiles/SpherePhong.dir/common/glad.c.obj: C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/common/glad.c
 CMakeFiles/SpherePhong.dir/common/glad.c.obj: CMakeFiles/SpherePhong.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/SpherePhong.dir/common/glad.c.obj"
-	C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/SpherePhong.dir/common/glad.c.obj -MF CMakeFiles\SpherePhong.dir\common\glad.c.obj.d -o CMakeFiles\SpherePhong.dir\common\glad.c.obj -c C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\common\glad.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/SpherePhong.dir/common/glad.c.obj"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/SpherePhong.dir/common/glad.c.obj -MF CMakeFiles\SpherePhong.dir\common\glad.c.obj.d -o CMakeFiles\SpherePhong.dir\common\glad.c.obj -c C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\common\glad.c
 
 CMakeFiles/SpherePhong.dir/common/glad.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/SpherePhong.dir/common/glad.c.i"
-	C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\common\glad.c > CMakeFiles\SpherePhong.dir\common\glad.c.i
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\common\glad.c > CMakeFiles\SpherePhong.dir\common\glad.c.i
 
 CMakeFiles/SpherePhong.dir/common/glad.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/SpherePhong.dir/common/glad.c.s"
-	C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\common\glad.c -o CMakeFiles\SpherePhong.dir\common\glad.c.s
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\common\glad.c -o CMakeFiles\SpherePhong.dir\common\glad.c.s
 
 # Object files for target SpherePhong
 SpherePhong_OBJECTS = \
@@ -116,7 +116,7 @@ SpherePhong.exe: _deps/glfw-build/src/libglfw3.a
 SpherePhong.exe: CMakeFiles/SpherePhong.dir/linkLibs.rsp
 SpherePhong.exe: CMakeFiles/SpherePhong.dir/objects1.rsp
 SpherePhong.exe: CMakeFiles/SpherePhong.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable SpherePhong.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable SpherePhong.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\SpherePhong.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -128,6 +128,6 @@ CMakeFiles/SpherePhong.dir/clean:
 .PHONY : CMakeFiles/SpherePhong.dir/clean
 
 CMakeFiles/SpherePhong.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\CMakeFiles\SpherePhong.dir\DependInfo.cmake "--color=$(COLOR)" SpherePhong
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\CMakeFiles\SpherePhong.dir\DependInfo.cmake "--color=$(COLOR)" SpherePhong
 .PHONY : CMakeFiles/SpherePhong.dir/depend
 

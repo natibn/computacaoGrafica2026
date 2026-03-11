@@ -52,10 +52,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido
+CMAKE_SOURCE_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build
+CMAKE_BINARY_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build
 
 # Utility rule file for update_mappings.
 
@@ -66,8 +66,8 @@ include _deps/glfw-build/src/CMakeFiles/update_mappings.dir/compiler_depend.make
 include _deps/glfw-build/src/CMakeFiles/update_mappings.dir/progress.make
 
 _deps/glfw-build/src/CMakeFiles/update_mappings:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Updating gamepad mappings from upstream repository"
-	cd /d C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\_deps\glfw-src\src && "C:\Program Files\CMake\bin\cmake.exe" -P C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/CGCCHibrido/build/_deps/glfw-src/CMake/GenerateMappings.cmake mappings.h.in mappings.h
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Updating gamepad mappings from upstream repository"
+	cd /d C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\_deps\glfw-src\src && "C:\Program Files\CMake\bin\cmake.exe" -P C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/build/_deps/glfw-src/CMake/GenerateMappings.cmake mappings.h.in mappings.h
 
 _deps/glfw-build/src/CMakeFiles/update_mappings.dir/codegen:
 .PHONY : _deps/glfw-build/src/CMakeFiles/update_mappings.dir/codegen
@@ -81,10 +81,10 @@ _deps/glfw-build/src/CMakeFiles/update_mappings.dir/build: update_mappings
 .PHONY : _deps/glfw-build/src/CMakeFiles/update_mappings.dir/build
 
 _deps/glfw-build/src/CMakeFiles/update_mappings.dir/clean:
-	cd /d C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\_deps\glfw-build\src && $(CMAKE_COMMAND) -P CMakeFiles\update_mappings.dir\cmake_clean.cmake
+	cd /d C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\_deps\glfw-build\src && $(CMAKE_COMMAND) -P CMakeFiles\update_mappings.dir\cmake_clean.cmake
 .PHONY : _deps/glfw-build/src/CMakeFiles/update_mappings.dir/clean
 
 _deps/glfw-build/src/CMakeFiles/update_mappings.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\_deps\glfw-src\src C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\_deps\glfw-build\src C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\_deps\glfw-build\src\CMakeFiles\update_mappings.dir\DependInfo.cmake "--color=$(COLOR)" update_mappings
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\_deps\glfw-src\src C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\_deps\glfw-build\src C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\_deps\glfw-build\src\CMakeFiles\update_mappings.dir\DependInfo.cmake "--color=$(COLOR)" update_mappings
 .PHONY : _deps/glfw-build/src/CMakeFiles/update_mappings.dir/depend
 

@@ -1,9 +1,9 @@
 
-if (NOT EXISTS "C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/CGCCHibrido/build/_deps/glfw-build/install_manifest.txt")
-    message(FATAL_ERROR "Cannot find install manifest: \"C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/CGCCHibrido/build/_deps/glfw-build/install_manifest.txt\"")
+if (NOT EXISTS "C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/build/_deps/glfw-build/install_manifest.txt")
+    message(FATAL_ERROR "Cannot find install manifest: \"C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/build/_deps/glfw-build/install_manifest.txt\"")
 endif()
 
-file(READ "C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/CGCCHibrido/build/_deps/glfw-build/install_manifest.txt" files)
+file(READ "C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/build/_deps/glfw-build/install_manifest.txt" files)
 string(REGEX REPLACE "\n" ";" files "${files}")
 
 foreach (file ${files})

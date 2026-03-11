@@ -56,10 +56,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido
+CMAKE_SOURCE_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build
+CMAKE_BINARY_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -131,9 +131,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\CMakeFiles C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\CMakeFiles C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\CMakeFiles 0
 .PHONY : all
 
 # The main clean target

@@ -1,0 +1,1 @@
+![Resultado da Tarefa 1](Tarefa1/tarefa1.png)

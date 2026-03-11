@@ -1,0 +1,3 @@
+C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/build/_deps/glm-subbuild/CMakeFiles/glm-populate.dir
+C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/build/_deps/glm-subbuild/CMakeFiles/edit_cache.dir
+C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/build/_deps/glm-subbuild/CMakeFiles/rebuild_cache.dir

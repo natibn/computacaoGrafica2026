@@ -52,10 +52,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido
+CMAKE_SOURCE_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build
+CMAKE_BINARY_DIR = C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Hello3D.dir/depend.make
@@ -73,33 +73,33 @@ CMakeFiles/Hello3D.dir/codegen:
 
 CMakeFiles/Hello3D.dir/src/Hello3D.cpp.obj: CMakeFiles/Hello3D.dir/flags.make
 CMakeFiles/Hello3D.dir/src/Hello3D.cpp.obj: CMakeFiles/Hello3D.dir/includes_CXX.rsp
-CMakeFiles/Hello3D.dir/src/Hello3D.cpp.obj: C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/CGCCHibrido/src/Hello3D.cpp
+CMakeFiles/Hello3D.dir/src/Hello3D.cpp.obj: C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/src/Hello3D.cpp
 CMakeFiles/Hello3D.dir/src/Hello3D.cpp.obj: CMakeFiles/Hello3D.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Hello3D.dir/src/Hello3D.cpp.obj"
-	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Hello3D.dir/src/Hello3D.cpp.obj -MF CMakeFiles\Hello3D.dir\src\Hello3D.cpp.obj.d -o CMakeFiles\Hello3D.dir\src\Hello3D.cpp.obj -c C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\src\Hello3D.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Hello3D.dir/src/Hello3D.cpp.obj"
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Hello3D.dir/src/Hello3D.cpp.obj -MF CMakeFiles\Hello3D.dir\src\Hello3D.cpp.obj.d -o CMakeFiles\Hello3D.dir\src\Hello3D.cpp.obj -c C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\src\Hello3D.cpp
 
 CMakeFiles/Hello3D.dir/src/Hello3D.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/Hello3D.dir/src/Hello3D.cpp.i"
-	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\src\Hello3D.cpp > CMakeFiles\Hello3D.dir\src\Hello3D.cpp.i
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\src\Hello3D.cpp > CMakeFiles\Hello3D.dir\src\Hello3D.cpp.i
 
 CMakeFiles/Hello3D.dir/src/Hello3D.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/Hello3D.dir/src/Hello3D.cpp.s"
-	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\src\Hello3D.cpp -o CMakeFiles\Hello3D.dir\src\Hello3D.cpp.s
+	C:\msys64\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\src\Hello3D.cpp -o CMakeFiles\Hello3D.dir\src\Hello3D.cpp.s
 
 CMakeFiles/Hello3D.dir/common/glad.c.obj: CMakeFiles/Hello3D.dir/flags.make
 CMakeFiles/Hello3D.dir/common/glad.c.obj: CMakeFiles/Hello3D.dir/includes_C.rsp
-CMakeFiles/Hello3D.dir/common/glad.c.obj: C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/CGCCHibrido/common/glad.c
+CMakeFiles/Hello3D.dir/common/glad.c.obj: C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/common/glad.c
 CMakeFiles/Hello3D.dir/common/glad.c.obj: CMakeFiles/Hello3D.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Hello3D.dir/common/glad.c.obj"
-	C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Hello3D.dir/common/glad.c.obj -MF CMakeFiles\Hello3D.dir\common\glad.c.obj.d -o CMakeFiles\Hello3D.dir\common\glad.c.obj -c C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\common\glad.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Hello3D.dir/common/glad.c.obj"
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Hello3D.dir/common/glad.c.obj -MF CMakeFiles\Hello3D.dir\common\glad.c.obj.d -o CMakeFiles\Hello3D.dir\common\glad.c.obj -c C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\common\glad.c
 
 CMakeFiles/Hello3D.dir/common/glad.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/Hello3D.dir/common/glad.c.i"
-	C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\common\glad.c > CMakeFiles\Hello3D.dir\common\glad.c.i
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\common\glad.c > CMakeFiles\Hello3D.dir\common\glad.c.i
 
 CMakeFiles/Hello3D.dir/common/glad.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/Hello3D.dir/common/glad.c.s"
-	C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\common\glad.c -o CMakeFiles\Hello3D.dir\common\glad.c.s
+	C:\msys64\mingw64\bin\cc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\common\glad.c -o CMakeFiles\Hello3D.dir\common\glad.c.s
 
 # Object files for target Hello3D
 Hello3D_OBJECTS = \
@@ -116,7 +116,7 @@ Hello3D.exe: _deps/glfw-build/src/libglfw3.a
 Hello3D.exe: CMakeFiles/Hello3D.dir/linkLibs.rsp
 Hello3D.exe: CMakeFiles/Hello3D.dir/objects1.rsp
 Hello3D.exe: CMakeFiles/Hello3D.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable Hello3D.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable Hello3D.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Hello3D.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -128,6 +128,6 @@ CMakeFiles/Hello3D.dir/clean:
 .PHONY : CMakeFiles/Hello3D.dir/clean
 
 CMakeFiles/Hello3D.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\CGCCHibrido\build\CMakeFiles\Hello3D.dir\DependInfo.cmake "--color=$(COLOR)" Hello3D
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build C:\Users\natib\OneDrive\Documentos\Unisinos\computacaoGrafica\computacaoGrafica2026\CGCCHibrido\build\CMakeFiles\Hello3D.dir\DependInfo.cmake "--color=$(COLOR)" Hello3D
 .PHONY : CMakeFiles/Hello3D.dir/depend
 

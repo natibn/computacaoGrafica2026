@@ -1,12 +1,12 @@
 {
 	"InstallScripts" : 
 	[
-		"C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/CGCCHibrido/build/cmake_install.cmake",
-		"C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/CGCCHibrido/build/_deps/glfw-build/cmake_install.cmake",
-		"C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/CGCCHibrido/build/_deps/glfw-build/src/cmake_install.cmake",
-		"C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/CGCCHibrido/build/_deps/glfw-build/docs/cmake_install.cmake",
-		"C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/CGCCHibrido/build/_deps/glm-build/cmake_install.cmake",
-		"C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/CGCCHibrido/build/_deps/glm-build/glm/cmake_install.cmake"
+		"C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/build/cmake_install.cmake",
+		"C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/build/_deps/glfw-build/cmake_install.cmake",
+		"C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/build/_deps/glfw-build/src/cmake_install.cmake",
+		"C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/build/_deps/glfw-build/docs/cmake_install.cmake",
+		"C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/build/_deps/glm-build/cmake_install.cmake",
+		"C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/build/_deps/glm-build/glm/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

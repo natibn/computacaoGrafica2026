@@ -28,8 +28,8 @@ set_property(GLOBAL PROPERTY _CMAKE_FindGit_GIT_EXECUTABLE_VERSION
 include(ExternalProject)
 ExternalProject_Add(stb_image-populate
                      "UPDATE_DISCONNECTED" "False" "GIT_REPOSITORY" "https://github.com/nothings/stb.git" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "GIT_TAG" "master"
-                    SOURCE_DIR          "C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/CGCCHibrido/build/_deps/stb_image-src"
-                    BINARY_DIR          "C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/CGCCHibrido/build/_deps/stb_image-build"
+                    SOURCE_DIR          "C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/build/_deps/stb_image-src"
+                    BINARY_DIR          "C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/build/_deps/stb_image-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""
