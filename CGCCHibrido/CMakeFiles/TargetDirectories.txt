@@ -1,4 +1,5 @@
 C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/CMakeFiles/Hello3D.dir
+C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/CMakeFiles/Hello3DCubo.dir
 C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/CMakeFiles/TriangleTex.dir
 C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/CMakeFiles/SpherePhong.dir
 C:/Users/natib/OneDrive/Documentos/Unisinos/computacaoGrafica/computacaoGrafica2026/CGCCHibrido/CMakeFiles/edit_cache.dir

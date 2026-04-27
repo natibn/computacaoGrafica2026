@@ -174,6 +174,19 @@ Hello3D/fast:
 .PHONY : Hello3D/fast
 
 #=============================================================================
+# Target rules for targets named Hello3DCubo
+
+# Build rule for target.
+Hello3DCubo: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 Hello3DCubo
+.PHONY : Hello3DCubo
+
+# fast build rule for target.
+Hello3DCubo/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Hello3DCubo.dir\build.make CMakeFiles/Hello3DCubo.dir/build
+.PHONY : Hello3DCubo/fast
+
+#=============================================================================
 # Target rules for targets named TriangleTex
 
 # Build rule for target.
@@ -257,6 +270,7 @@ common/glad.obj: common/glad.c.obj
 # target to build an object file
 common/glad.c.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Hello3D.dir\build.make CMakeFiles/Hello3D.dir/common/glad.c.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Hello3DCubo.dir\build.make CMakeFiles/Hello3DCubo.dir/common/glad.c.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TriangleTex.dir\build.make CMakeFiles/TriangleTex.dir/common/glad.c.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\SpherePhong.dir\build.make CMakeFiles/SpherePhong.dir/common/glad.c.obj
 .PHONY : common/glad.c.obj
@@ -267,6 +281,7 @@ common/glad.i: common/glad.c.i
 # target to preprocess a source file
 common/glad.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Hello3D.dir\build.make CMakeFiles/Hello3D.dir/common/glad.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Hello3DCubo.dir\build.make CMakeFiles/Hello3DCubo.dir/common/glad.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TriangleTex.dir\build.make CMakeFiles/TriangleTex.dir/common/glad.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\SpherePhong.dir\build.make CMakeFiles/SpherePhong.dir/common/glad.c.i
 .PHONY : common/glad.c.i
@@ -277,6 +292,7 @@ common/glad.s: common/glad.c.s
 # target to generate assembly for a file
 common/glad.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Hello3D.dir\build.make CMakeFiles/Hello3D.dir/common/glad.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Hello3DCubo.dir\build.make CMakeFiles/Hello3DCubo.dir/common/glad.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TriangleTex.dir\build.make CMakeFiles/TriangleTex.dir/common/glad.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\SpherePhong.dir\build.make CMakeFiles/SpherePhong.dir/common/glad.c.s
 .PHONY : common/glad.c.s
@@ -304,6 +320,30 @@ src/Hello3D.s: src/Hello3D.cpp.s
 src/Hello3D.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Hello3D.dir\build.make CMakeFiles/Hello3D.dir/src/Hello3D.cpp.s
 .PHONY : src/Hello3D.cpp.s
+
+src/Hello3DCubo.obj: src/Hello3DCubo.cpp.obj
+.PHONY : src/Hello3DCubo.obj
+
+# target to build an object file
+src/Hello3DCubo.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Hello3DCubo.dir\build.make CMakeFiles/Hello3DCubo.dir/src/Hello3DCubo.cpp.obj
+.PHONY : src/Hello3DCubo.cpp.obj
+
+src/Hello3DCubo.i: src/Hello3DCubo.cpp.i
+.PHONY : src/Hello3DCubo.i
+
+# target to preprocess a source file
+src/Hello3DCubo.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Hello3DCubo.dir\build.make CMakeFiles/Hello3DCubo.dir/src/Hello3DCubo.cpp.i
+.PHONY : src/Hello3DCubo.cpp.i
+
+src/Hello3DCubo.s: src/Hello3DCubo.cpp.s
+.PHONY : src/Hello3DCubo.s
+
+# target to generate assembly for a file
+src/Hello3DCubo.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Hello3DCubo.dir\build.make CMakeFiles/Hello3DCubo.dir/src/Hello3DCubo.cpp.s
+.PHONY : src/Hello3DCubo.cpp.s
 
 src/SpherePhong.obj: src/SpherePhong.cpp.obj
 .PHONY : src/SpherePhong.obj
@@ -368,6 +408,7 @@ help:
 	@echo ... uninstall
 	@echo ... update_mappings
 	@echo ... Hello3D
+	@echo ... Hello3DCubo
 	@echo ... SpherePhong
 	@echo ... TriangleTex
 	@echo ... glfw
@@ -378,6 +419,9 @@ help:
 	@echo ... src/Hello3D.obj
 	@echo ... src/Hello3D.i
 	@echo ... src/Hello3D.s
+	@echo ... src/Hello3DCubo.obj
+	@echo ... src/Hello3DCubo.i
+	@echo ... src/Hello3DCubo.s
 	@echo ... src/SpherePhong.obj
 	@echo ... src/SpherePhong.i
 	@echo ... src/SpherePhong.s
