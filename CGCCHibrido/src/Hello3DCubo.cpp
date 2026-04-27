@@ -129,8 +129,20 @@ int main()
 	// Obtendo as informações de versão
 	const GLubyte* renderer = glGetString(GL_RENDERER); /* get renderer string */
 	const GLubyte* version = glGetString(GL_VERSION); /* version as a string */
-	cout << "Renderer: " << renderer << endl;
-	cout << "OpenGL version supported " << version << endl;
+	std::cout << "========================================" << std::endl;
+	std::cout << "Renderer: " << renderer << std::endl;
+	std::cout << "OpenGL version supported: " << version << std::endl;
+	std::cout << "========================================" << std::endl;
+	std::cout << "Controles:" << std::endl;
+	std::cout << "  1-6: Selecionar cubo" << std::endl;
+	std::cout << "  W/S: Mover frente/tras" << std::endl;
+	std::cout << "  A/D: Mover esquerda/direita" << std::endl;
+	std::cout << "  I/J: Mover cima/baixo" << std::endl;
+	std::cout << "  [/]: Escalar" << std::endl;
+	std::cout << "  X/Y/Z: Eixo de rotacao" << std::endl;
+	std::cout << "  Esc: Sair" << std::endl;
+	std::cout << "========================================" << std::endl;
+	std::cout << "Cubo selecionado: " << (cuboSelecionado + 1) << std::endl;
 
 	// Definindo as dimensões da viewport com as mesmas dimensões da janela da aplicação
 	int width, height;
