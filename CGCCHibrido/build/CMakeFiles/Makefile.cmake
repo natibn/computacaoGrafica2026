@@ -98,6 +98,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/Hello3D.dir/DependInfo.cmake"
   "CMakeFiles/Hello3DCubo.dir/DependInfo.cmake"
+  "CMakeFiles/OBJSelection.dir/DependInfo.cmake"
   "CMakeFiles/TriangleTex.dir/DependInfo.cmake"
   "CMakeFiles/SpherePhong.dir/DependInfo.cmake"
   "_deps/glfw-build/CMakeFiles/uninstall.dir/DependInfo.cmake"

@@ -187,6 +187,19 @@ Hello3DCubo/fast:
 .PHONY : Hello3DCubo/fast
 
 #=============================================================================
+# Target rules for targets named OBJSelection
+
+# Build rule for target.
+OBJSelection: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 OBJSelection
+.PHONY : OBJSelection
+
+# fast build rule for target.
+OBJSelection/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OBJSelection.dir\build.make CMakeFiles/OBJSelection.dir/build
+.PHONY : OBJSelection/fast
+
+#=============================================================================
 # Target rules for targets named TriangleTex
 
 # Build rule for target.
@@ -271,6 +284,7 @@ common/glad.obj: common/glad.c.obj
 common/glad.c.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Hello3D.dir\build.make CMakeFiles/Hello3D.dir/common/glad.c.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Hello3DCubo.dir\build.make CMakeFiles/Hello3DCubo.dir/common/glad.c.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OBJSelection.dir\build.make CMakeFiles/OBJSelection.dir/common/glad.c.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TriangleTex.dir\build.make CMakeFiles/TriangleTex.dir/common/glad.c.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\SpherePhong.dir\build.make CMakeFiles/SpherePhong.dir/common/glad.c.obj
 .PHONY : common/glad.c.obj
@@ -282,6 +296,7 @@ common/glad.i: common/glad.c.i
 common/glad.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Hello3D.dir\build.make CMakeFiles/Hello3D.dir/common/glad.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Hello3DCubo.dir\build.make CMakeFiles/Hello3DCubo.dir/common/glad.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OBJSelection.dir\build.make CMakeFiles/OBJSelection.dir/common/glad.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TriangleTex.dir\build.make CMakeFiles/TriangleTex.dir/common/glad.c.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\SpherePhong.dir\build.make CMakeFiles/SpherePhong.dir/common/glad.c.i
 .PHONY : common/glad.c.i
@@ -293,6 +308,7 @@ common/glad.s: common/glad.c.s
 common/glad.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Hello3D.dir\build.make CMakeFiles/Hello3D.dir/common/glad.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Hello3DCubo.dir\build.make CMakeFiles/Hello3DCubo.dir/common/glad.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OBJSelection.dir\build.make CMakeFiles/OBJSelection.dir/common/glad.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\TriangleTex.dir\build.make CMakeFiles/TriangleTex.dir/common/glad.c.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\SpherePhong.dir\build.make CMakeFiles/SpherePhong.dir/common/glad.c.s
 .PHONY : common/glad.c.s
@@ -344,6 +360,30 @@ src/Hello3DCubo.s: src/Hello3DCubo.cpp.s
 src/Hello3DCubo.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Hello3DCubo.dir\build.make CMakeFiles/Hello3DCubo.dir/src/Hello3DCubo.cpp.s
 .PHONY : src/Hello3DCubo.cpp.s
+
+src/OBJSelection.obj: src/OBJSelection.cpp.obj
+.PHONY : src/OBJSelection.obj
+
+# target to build an object file
+src/OBJSelection.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OBJSelection.dir\build.make CMakeFiles/OBJSelection.dir/src/OBJSelection.cpp.obj
+.PHONY : src/OBJSelection.cpp.obj
+
+src/OBJSelection.i: src/OBJSelection.cpp.i
+.PHONY : src/OBJSelection.i
+
+# target to preprocess a source file
+src/OBJSelection.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OBJSelection.dir\build.make CMakeFiles/OBJSelection.dir/src/OBJSelection.cpp.i
+.PHONY : src/OBJSelection.cpp.i
+
+src/OBJSelection.s: src/OBJSelection.cpp.s
+.PHONY : src/OBJSelection.s
+
+# target to generate assembly for a file
+src/OBJSelection.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\OBJSelection.dir\build.make CMakeFiles/OBJSelection.dir/src/OBJSelection.cpp.s
+.PHONY : src/OBJSelection.cpp.s
 
 src/SpherePhong.obj: src/SpherePhong.cpp.obj
 .PHONY : src/SpherePhong.obj
@@ -409,6 +449,7 @@ help:
 	@echo ... update_mappings
 	@echo ... Hello3D
 	@echo ... Hello3DCubo
+	@echo ... OBJSelection
 	@echo ... SpherePhong
 	@echo ... TriangleTex
 	@echo ... glfw
@@ -422,6 +463,9 @@ help:
 	@echo ... src/Hello3DCubo.obj
 	@echo ... src/Hello3DCubo.i
 	@echo ... src/Hello3DCubo.s
+	@echo ... src/OBJSelection.obj
+	@echo ... src/OBJSelection.i
+	@echo ... src/OBJSelection.s
 	@echo ... src/SpherePhong.obj
 	@echo ... src/SpherePhong.i
 	@echo ... src/SpherePhong.s
