@@ -1,6 +1,6 @@
 Atividade Vivencial - 09/05/2026 - Natália Bernardo Nunes
 
-Foram criados os arquivos [OBJSelection.cpp](CGCCHibrido\src\OBJSelection.cpp) e [OBJSelection.exe](CGCCHibrido\build\OBJSelection.exe) para a entrega desta atividade.
+Foram criados os arquivos [OBJSelection.cpp](../CGCCHibrido/src/OBJSelection.cpp) e [OBJSelection.exe](../CGCCHibrido/build/OBJSelection.exe) para a entrega desta atividade.
 
 ## Controles
 
