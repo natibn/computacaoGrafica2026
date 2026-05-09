@@ -1,6 +1,6 @@
 Atividade Vivencial - 09/05/2026 - Natália Bernardo Nunes
 
-Foram criados os arquivos OBJSelection.cpp e OBJSelection.exe para a entrega desta atividade.
+Foram criados os arquivos [OBJSelection.cpp](CGCCHibrido\src\OBJSelection.cpp) e [OBJSelection.exe](CGCCHibrido\build\OBJSelection.exe) para a entrega desta atividade.
 
 ## Controles
 
@@ -14,4 +14,4 @@ Foram criados os arquivos OBJSelection.cpp e OBJSelection.exe para a entrega des
 - **R/T** — Girar objeto selecionado (+/-15 graus no eixo)
 - **ESC** — Sair
 
-<img src="tarefa2.png"/>
+<img src="vivencial1.png"/>
