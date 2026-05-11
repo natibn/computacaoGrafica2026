@@ -10,6 +10,10 @@
 // GLFW
 #include <GLFW/glfw3.h>
 
+// STB Image
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+
 // GLM
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -24,6 +28,9 @@ struct MeshData
     glm::vec3 scale;
     glm::vec3 color;
     glm::vec3 rotation;  // rotation angles in degrees (x, y, z)
+    GLuint textureID;
+    bool hasTexture;
+    std::string textureName;
 };
 
 std::vector<MeshData> meshes;
@@ -47,21 +54,31 @@ bool rotateNeg = false;
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 int setupShader();
 int loadSimpleOBJ(const std::string& filePath, int& nVertices, std::string& textureName);
+GLuint loadTexture(const std::string& filePath);
 
 const GLchar* vertexShaderSource = "#version 450\n"
 "layout(location = 0) in vec3 position;\n"
+"layout(location = 1) in vec2 texCoord;\n"
 "uniform mat4 model;\n"
+"out vec2 TexCoord;\n"
 "void main()\n"
 "{\n"
 "    gl_Position = model * vec4(position, 1.0);\n"
+"    TexCoord = texCoord;\n"
 "}\0";
 
 const GLchar* fragmentShaderSource = "#version 450\n"
+"in vec2 TexCoord;\n"
+"uniform sampler2D textureSampler;\n"
 "uniform vec4 objectColor;\n"
+"uniform bool useTexture;\n"
 "out vec4 color;\n"
 "void main()\n"
 "{\n"
-"    color = objectColor;\n"
+"    if (useTexture)\n"
+"        color = texture(textureSampler, TexCoord);\n"
+"    else\n"
+"        color = objectColor;\n"
 "}\0";
 
 int main()
@@ -138,6 +155,25 @@ int main()
         mesh.scale = glm::vec3(0.6f);
         mesh.color = baseColors[i];
         mesh.rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+        mesh.textureID = 0;
+        mesh.hasTexture = false;
+        mesh.textureName = textureName;
+
+        if (!textureName.empty())
+        {
+            std::string texturePath = files[i].substr(0, files[i].find_last_of("/\\") + 1) + textureName;
+            mesh.textureID = loadTexture(texturePath);
+            if (mesh.textureID != 0)
+            {
+                mesh.hasTexture = true;
+                std::cout << "Textura carregada: " << texturePath << std::endl;
+            }
+            else
+            {
+                std::cerr << "Falha ao carregar textura: " << texturePath << std::endl;
+            }
+        }
+
         meshes.push_back(mesh);
     }
 
@@ -153,6 +189,13 @@ int main()
 
     GLint modelLoc = glGetUniformLocation(shaderProgram, "model");
     GLint colorLoc = glGetUniformLocation(shaderProgram, "objectColor");
+    GLint textureLoc = glGetUniformLocation(shaderProgram, "textureSampler");
+    GLint useTextureLoc = glGetUniformLocation(shaderProgram, "useTexture");
+
+    if (textureLoc != -1)
+    {
+        glUniform1i(textureLoc, 0);
+    }
 
     glEnable(GL_DEPTH_TEST);
 
@@ -213,6 +256,21 @@ int main()
             else
             {
                 glUniform4f(colorLoc, mesh.color.r, mesh.color.g, mesh.color.b, 1.0f);
+            }
+
+            if (useTextureLoc != -1)
+            {
+                glUniform1i(useTextureLoc, mesh.hasTexture ? 1 : 0);
+            }
+
+            if (mesh.hasTexture)
+            {
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, mesh.textureID);
+            }
+            else
+            {
+                glBindTexture(GL_TEXTURE_2D, 0);
             }
 
             glBindVertexArray(mesh.VAO);
@@ -447,6 +505,46 @@ int loadSimpleOBJ(const std::string& filePath, int& nVertices, std::string& text
 
     nVertices = static_cast<int>(vBuffer.size() / 5);
     return VAO;
+}
+
+GLuint loadTexture(const std::string& filePath)
+{
+    int width, height, nrChannels;
+    unsigned char* data = stbi_load(filePath.c_str(), &width, &height, &nrChannels, 0);
+    if (!data)
+    {
+        std::cerr << "Falha ao carregar imagem: " << filePath << std::endl;
+        return 0;
+    }
+
+    GLuint texID;
+    glGenTextures(1, &texID);
+    glBindTexture(GL_TEXTURE_2D, texID);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    if (nrChannels == 3)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    }
+    else if (nrChannels == 4)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+    }
+    else
+    {
+        std::cerr << "Formato de imagem não suportado: " << filePath << std::endl;
+        stbi_image_free(data);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        return 0;
+    }
+
+    glGenerateMipmap(GL_TEXTURE_2D);
+    stbi_image_free(data);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    return texID;
 }
 
 int setupShader()
