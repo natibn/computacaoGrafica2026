@@ -7,3 +7,5 @@ Tarefa 1 - Criando o ambiente de programação em Cenas 3D (Deadline 22/03/2026)
 Tarefa 2 - Instanciando objetos na cena 3D (Deadline 05/05/2026)
 
 Atividade Vivencial 09/05/2026 - Informações encontram-se [aqui](Vivencial1/README_VIVENCIAL.md)
+
+Tarefa 3 - Adicionando texturas (Deadline 19/05/2026)
