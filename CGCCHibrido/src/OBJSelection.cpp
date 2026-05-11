@@ -59,11 +59,12 @@ GLuint loadTexture(const std::string& filePath);
 const GLchar* vertexShaderSource = "#version 450\n"
 "layout(location = 0) in vec3 position;\n"
 "layout(location = 1) in vec2 texCoord;\n"
+"uniform mat4 projection;\n"
 "uniform mat4 model;\n"
 "out vec2 TexCoord;\n"
 "void main()\n"
 "{\n"
-"    gl_Position = model * vec4(position, 1.0);\n"
+"    gl_Position = projection * model * vec4(position, 1.0);\n"
 "    TexCoord = texCoord;\n"
 "}\0";
 
@@ -132,6 +133,10 @@ int main()
     GLuint shaderProgram = setupShader();
     glUseProgram(shaderProgram);
 
+   // glm::mat4 projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, -10.0f, 10.0f);
+   // GLint projLoc = glGetUniformLocation(shaderProgram, "projection");
+    // glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
     std::vector<std::string> files = {"../assets/Modelos3D/Cube.obj", "../assets/Modelos3D/Suzanne.obj", "../assets/Modelos3D/SuzanneSubdiv1.obj"};
     std::vector<glm::vec3> positions = { glm::vec3(-2.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(2.0f, 0.0f, 0.0f) };
     std::vector<glm::vec3> baseColors = { glm::vec3(0.7f, 0.5f, 0.3f), glm::vec3(0.5f, 0.8f, 0.5f), glm::vec3(0.6f, 0.6f, 0.9f) };
@@ -163,15 +168,8 @@ int main()
         {
             std::string texturePath = files[i].substr(0, files[i].find_last_of("/\\") + 1) + textureName;
             mesh.textureID = loadTexture(texturePath);
-            if (mesh.textureID != 0)
-            {
-                mesh.hasTexture = true;
-                std::cout << "Textura carregada: " << texturePath << std::endl;
-            }
-            else
-            {
-                std::cerr << "Falha ao carregar textura: " << texturePath << std::endl;
-            }
+            mesh.hasTexture = true;
+            std::cout << "Textura carregada: " << texturePath << std::endl;
         }
 
         meshes.push_back(mesh);
@@ -509,39 +507,35 @@ int loadSimpleOBJ(const std::string& filePath, int& nVertices, std::string& text
 
 GLuint loadTexture(const std::string& filePath)
 {
-    int width, height, nrChannels;
-    unsigned char* data = stbi_load(filePath.c_str(), &width, &height, &nrChannels, 0);
-    if (!data)
-    {
-        std::cerr << "Falha ao carregar imagem: " << filePath << std::endl;
-        return 0;
-    }
-
     GLuint texID;
     glGenTextures(1, &texID);
     glBindTexture(GL_TEXTURE_2D, texID);
+
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    if (nrChannels == 3)
+    int width, height, nrChannels;
+    unsigned char* data = stbi_load(filePath.c_str(), &width, &height, &nrChannels, 0);
+
+    if (data)
     {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-    }
-    else if (nrChannels == 4)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        if (nrChannels == 3)
+        {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        }
+        else
+        {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        }
+        glGenerateMipmap(GL_TEXTURE_2D);
     }
     else
     {
-        std::cerr << "Formato de imagem não suportado: " << filePath << std::endl;
-        stbi_image_free(data);
-        glBindTexture(GL_TEXTURE_2D, 0);
-        return 0;
+        std::cout << "Failed to load texture " << filePath << std::endl;
     }
 
-    glGenerateMipmap(GL_TEXTURE_2D);
     stbi_image_free(data);
     glBindTexture(GL_TEXTURE_2D, 0);
     return texID;
