@@ -9,3 +9,5 @@ Tarefa 2 - Instanciando objetos na cena 3D (Deadline 05/05/2026)
 Atividade Vivencial 09/05/2026 - Informações encontram-se [aqui](Vivencial1/README_VIVENCIAL.md)
 
 Tarefa 3 - Adicionando texturas (Deadline 19/05/2026)
+
+Tarefa 4 - Adicionando iluminação (Deadline 28/05/2026) e Atividade Vivencial 23/05/2026, conforme orientação do professor, foram entregues juntas.
