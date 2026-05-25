@@ -645,17 +645,6 @@ int loadSimpleOBJ(const std::string& filePath, int& nVertices, std::string& text
                 vBuffer.push_back(vertices[vi].y);
                 vBuffer.push_back(vertices[vi].z);
 
-                if (ti >= 0 && ti < (int)texCoords.size())
-                {
-                    vBuffer.push_back(texCoords[ti].s);
-                    vBuffer.push_back(texCoords[ti].t);
-                }
-                else
-                {
-                    vBuffer.push_back(0.0f);
-                    vBuffer.push_back(0.0f);
-                }
-
                 if (ni >= 0 && ni < (int)normals.size())
                 {
                     vBuffer.push_back(normals[ni].x);
@@ -667,6 +656,17 @@ int loadSimpleOBJ(const std::string& filePath, int& nVertices, std::string& text
                     vBuffer.push_back(0.0f);
                     vBuffer.push_back(0.0f);
                     vBuffer.push_back(1.0f);
+                }
+
+                if (ti >= 0 && ti < (int)texCoords.size())
+                {
+                    vBuffer.push_back(texCoords[ti].s);
+                    vBuffer.push_back(texCoords[ti].t);
+                }
+                else
+                {
+                    vBuffer.push_back(0.0f);
+                    vBuffer.push_back(0.0f);
                 }
             }
         }
@@ -692,10 +692,10 @@ int loadSimpleOBJ(const std::string& filePath, int& nVertices, std::string& text
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
 
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(5 * sizeof(GLfloat)));
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(2);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -717,6 +717,7 @@ GLuint loadTexture(const std::string& filePath)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     int width, height, nrChannels;
+    stbi_set_flip_vertically_on_load(true);
     unsigned char* data = stbi_load(filePath.c_str(), &width, &height, &nrChannels, 0);
 
     if (data)
