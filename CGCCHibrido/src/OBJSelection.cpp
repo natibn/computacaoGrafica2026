@@ -68,7 +68,32 @@ bool rotatePos = false;
 bool rotateNeg = false;
 bool wireframeMode = false;
 
+// Modo: false = controla objeto, true = câmera em primeira pessoa
+bool cameraMode = false;
+
+glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f, 5.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
+
+float yaw   = -90.0f;
+float pitch =   0.0f;
+float fov   =  45.0f;
+
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
+
+bool  firstMouse = true;
+float lastMouseX = 500.0f;
+float lastMouseY = 500.0f;
+
+bool camMoveForward  = false;
+bool camMoveBackward = false;
+bool camMoveLeft     = false;
+bool camMoveRight    = false;
+
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 int setupShader();
 int loadSimpleOBJ(const std::string& filePath, int& nVertices, std::string& textureName);
 GLuint loadTexture(const std::string& filePath);
@@ -188,6 +213,8 @@ int main(int argc, char** argv)
 
     glfwMakeContextCurrent(window);
     glfwSetKeyCallback(window, key_callback);
+    glfwSetCursorPosCallback(window, mouse_callback);
+    glfwSetScrollCallback(window, scroll_callback);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -231,6 +258,10 @@ int main(int argc, char** argv)
     std::cout << "  K/L: Diminuir/Aumentar escala do objeto selecionado" << std::endl;
     std::cout << "  X/Y/Z: Selecionar eixo de rotação" << std::endl;
     std::cout << "  R/T: Girar objeto selecionado (+/-15 graus no eixo)" << std::endl;
+    std::cout << "Câmera em Primeira Pessoa (tecle C para alternar):" << std::endl;
+    std::cout << "  W/A/S/D : Mover câmera" << std::endl;
+    std::cout << "  Mouse   : Olhar ao redor (pitch/yaw)" << std::endl;
+    std::cout << "  Scroll  : Zoom (altera FOV)" << std::endl;
     std::cout << "Controles de Iluminação:" << std::endl;
     std::cout << "  1: Alternar Key Light (luz principal)" << std::endl;
     std::cout << "  2: Alternar Fill Light (luz de preenchimento)" << std::endl;
@@ -245,16 +276,11 @@ int main(int argc, char** argv)
     GLuint shaderProgram = setupShader();
     glUseProgram(shaderProgram);
 
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
-    glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::mat4 projection = glm::perspective(glm::radians(fov), (float)width / (float)height, 0.1f, 100.0f);
 
     GLint projLoc = glGetUniformLocation(shaderProgram, "projection");
     GLint viewLoc = glGetUniformLocation(shaderProgram, "view");
     std::cout << "Uniform locations: projection=" << projLoc << " view=" << viewLoc << std::endl;
-    if (projLoc != -1)
-        glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-    if (viewLoc != -1)
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 
     std::vector<fs::path> objFiles = {
         fs::path(assetsFolder) / "Cube.obj",
@@ -336,44 +362,71 @@ int main(int argc, char** argv)
 
     while (!glfwWindowShouldClose(window))
     {
+        float currentFrame = static_cast<float>(glfwGetTime());
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
         glfwPollEvents();
-
-        MeshData& selectedMesh = meshes[selectedMeshIndex];
-
-        if (moveForward) selectedMesh.position.z -= 0.02f;
-        if (moveBackward) selectedMesh.position.z += 0.02f;
-        if (moveLeft) selectedMesh.position.x -= 0.02f;
-        if (moveRight) selectedMesh.position.x += 0.02f;
-        if (moveUp) selectedMesh.position.y += 0.02f;
-        if (moveDown) selectedMesh.position.y -= 0.02f;
-
-        if (scaleUp) selectedMesh.scale += glm::vec3(0.01f);
-        if (scaleDown) selectedMesh.scale -= glm::vec3(0.01f);
-        selectedMesh.scale = glm::max(selectedMesh.scale, glm::vec3(0.1f));
-
-        if (rotatePos)
+        if (cameraMode)
         {
-            if (rotateX) selectedMesh.rotation.x += 5.0f;
-            if (rotateY) selectedMesh.rotation.y += 5.0f;
-            if (rotateZ) selectedMesh.rotation.z += 5.0f;
+            float cameraSpeed = 2.5f * deltaTime;
+            if (camMoveForward)
+                cameraPos += cameraSpeed * cameraFront;
+            if (camMoveBackward)
+                cameraPos -= cameraSpeed * cameraFront;
+            if (camMoveLeft)
+                cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+            if (camMoveRight)
+                cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
         }
-        if (rotateNeg)
+        else
         {
-            if (rotateX) selectedMesh.rotation.x -= 5.0f;
-            if (rotateY) selectedMesh.rotation.y -= 5.0f;
-            if (rotateZ) selectedMesh.rotation.z -= 5.0f;
+            MeshData& selectedMesh = meshes[selectedMeshIndex];
+            if (moveForward)  selectedMesh.position.z -= 0.02f;
+            if (moveBackward) selectedMesh.position.z += 0.02f;
+            if (moveLeft)     selectedMesh.position.x -= 0.02f;
+            if (moveRight)    selectedMesh.position.x += 0.02f;
+            if (moveUp)       selectedMesh.position.y += 0.02f;
+            if (moveDown)     selectedMesh.position.y -= 0.02f;
         }
 
-        // Normalizar ângulos para 0-360
-        selectedMesh.rotation.x = fmod(selectedMesh.rotation.x, 360.0f);
-        selectedMesh.rotation.y = fmod(selectedMesh.rotation.y, 360.0f);
-        selectedMesh.rotation.z = fmod(selectedMesh.rotation.z, 360.0f);
+        if (!cameraMode)
+        {
+            MeshData& sel = meshes[selectedMeshIndex];
+            if (scaleUp)   sel.scale += glm::vec3(0.01f);
+            if (scaleDown) sel.scale -= glm::vec3(0.01f);
+            sel.scale = glm::max(sel.scale, glm::vec3(0.1f));
+
+            if (rotatePos)
+            {
+                if (rotateX) sel.rotation.x += 5.0f;
+                if (rotateY) sel.rotation.y += 5.0f;
+                if (rotateZ) sel.rotation.z += 5.0f;
+            }
+            if (rotateNeg)
+            {
+                if (rotateX) sel.rotation.x -= 5.0f;
+                if (rotateY) sel.rotation.y -= 5.0f;
+                if (rotateZ) sel.rotation.z -= 5.0f;
+            }
+            sel.rotation.x = fmod(sel.rotation.x, 360.0f);
+            sel.rotation.y = fmod(sel.rotation.y, 360.0f);
+            sel.rotation.z = fmod(sel.rotation.z, 360.0f);
+        }
+
+        glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+
+        projection = glm::perspective(glm::radians(fov), (float)width / (float)height, 0.1f, 100.0f);
+
+        if (projLoc != -1)
+            glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+        if (viewLoc != -1)
+            glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 
         glClearColor(0.15f, 0.15f, 0.15f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glm::vec3 viewPos = glm::vec3(0.0f, 0.0f, 5.0f);
-        glUniform3fv(viewPosLoc, 1, glm::value_ptr(viewPos));
+        glUniform3fv(viewPosLoc, 1, glm::value_ptr(cameraPos));
 
         glUniform3fv(lightPosLoc[0], 1, glm::value_ptr(keyLight.position));
         glUniform3fv(lightColorLoc[0], 1, glm::value_ptr(keyLight.color));
@@ -453,6 +506,23 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
 
+    if (key == GLFW_KEY_C && action == GLFW_PRESS)
+    {
+        cameraMode = !cameraMode;
+        if (cameraMode)
+        {
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            firstMouse = true;
+            std::cout << "Modo CÂMERA ativado (C para voltar ao modo objeto)" << std::endl;
+        }
+        else
+        {
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            camMoveForward = camMoveBackward = camMoveLeft = camMoveRight = false;
+            std::cout << "Modo OBJETO ativado (C para câmera em 1ª pessoa)" << std::endl;
+        }
+    }
+
     if (key == GLFW_KEY_TAB && action == GLFW_PRESS)
     {
         selectedMeshIndex = (selectedMeshIndex + 1) % meshes.size();
@@ -477,23 +547,23 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
     if (key == GLFW_KEY_W)
     {
-        if (action == GLFW_PRESS) moveForward = true;
-        else if (action == GLFW_RELEASE) moveForward = false;
+        if (cameraMode) { camMoveForward  = (action != GLFW_RELEASE); }
+        else { if (action == GLFW_PRESS) moveForward = true; else if (action == GLFW_RELEASE) moveForward = false; }
     }
     if (key == GLFW_KEY_S)
     {
-        if (action == GLFW_PRESS) moveBackward = true;
-        else if (action == GLFW_RELEASE) moveBackward = false;
+        if (cameraMode) { camMoveBackward = (action != GLFW_RELEASE); }
+        else { if (action == GLFW_PRESS) moveBackward = true; else if (action == GLFW_RELEASE) moveBackward = false; }
     }
     if (key == GLFW_KEY_A)
     {
-        if (action == GLFW_PRESS) moveLeft = true;
-        else if (action == GLFW_RELEASE) moveLeft = false;
+        if (cameraMode) { camMoveLeft  = (action != GLFW_RELEASE); }
+        else { if (action == GLFW_PRESS) moveLeft = true; else if (action == GLFW_RELEASE) moveLeft = false; }
     }
     if (key == GLFW_KEY_D)
     {
-        if (action == GLFW_PRESS) moveRight = true;
-        else if (action == GLFW_RELEASE) moveRight = false;
+        if (cameraMode) { camMoveRight = (action != GLFW_RELEASE); }
+        else { if (action == GLFW_PRESS) moveRight = true; else if (action == GLFW_RELEASE) moveRight = false; }
     }
     if (key == GLFW_KEY_Q)
     {
@@ -782,4 +852,54 @@ int setupShader()
     glDeleteShader(fragmentShader);
 
     return static_cast<int>(shaderProgram);
+}
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    if (!cameraMode)
+        return;
+
+    float xf = static_cast<float>(xpos);
+    float yf = static_cast<float>(ypos);
+
+    if (firstMouse)
+    {
+        lastMouseX = xf;
+        lastMouseY = yf;
+        firstMouse = false;
+    }
+
+    float xoffset = xf - lastMouseX;
+    float yoffset = lastMouseY - yf;
+    lastMouseX = xf;
+    lastMouseY = yf;
+
+    const float sensitivity = 0.05f;
+    xoffset *= sensitivity;
+    yoffset *= sensitivity;
+
+    yaw   += xoffset;
+    pitch += yoffset;
+
+    if (pitch >  89.0f) pitch =  89.0f;
+    if (pitch < -89.0f) pitch = -89.0f;
+
+    glm::vec3 front;
+    front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    front.y = sin(glm::radians(pitch));
+    front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+    cameraFront = glm::normalize(front);
+
+    glm::vec3 right = glm::normalize(glm::cross(cameraFront, glm::vec3(0.0f, 1.0f, 0.0f)));
+    cameraUp = glm::normalize(glm::cross(right, cameraFront));
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    if (!cameraMode)
+        return;
+
+    fov -= static_cast<float>(yoffset);
+    if (fov < 1.0f)  fov =  1.0f;
+    if (fov > 45.0f) fov = 45.0f;
 }

@@ -13,3 +13,5 @@ Tarefa 3 - Adicionando texturas (Deadline 19/05/2026) - Informações [aqui](Tar
 Tarefa 4 - Adicionando iluminação (Deadline 28/05/2026) e Atividade Vivencial 23/05/2026, conforme orientação do professor, foram entregues juntas.  - Informações [aqui](Tarefa4/Tarefa4.md)
 
 Correção de texura do chimpanzé - Realizada em 25/05/2026 - Informações [aqui](CorrecaoTextura/CorrecaoTextura.md)
+
+Tarefa 5 - Adicionando uma câmera em primeira pessoa - Informações [aqui](Tarefa5/Tarefa5.md)
