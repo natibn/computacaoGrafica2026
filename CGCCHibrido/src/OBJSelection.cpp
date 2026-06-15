@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <filesystem>
+#include <cmath>
+#include <iomanip>
 
 namespace fs = std::filesystem;
 
@@ -38,14 +40,22 @@ struct MeshData
     glm::vec3 position;
     glm::vec3 scale;
     glm::vec3 color;
-    glm::vec3 rotation;  // rotation angles in degrees (x, y, z)
+    glm::vec3 rotation;
     GLuint textureID;
     bool hasTexture;
     std::string textureName;
+
+    std::vector<glm::vec3> trajectory;
+
+    bool   animating      = false;
+    int    trajSegment    = 0;
+    float  trajT          = 0.0f;
+    float  trajSpeed      = 0.5f;
 };
 
 std::vector<MeshData> meshes;
 int selectedMeshIndex = 0;
+fs::path g_assetsFolder;
 
 // Sistema de iluminação
 PointLight keyLight;
@@ -98,6 +108,10 @@ int setupShader();
 int loadSimpleOBJ(const std::string& filePath, int& nVertices, std::string& textureName);
 GLuint loadTexture(const std::string& filePath);
 fs::path locateAssetFolder(const fs::path& exePath);
+
+void updateTrajectory(MeshData& mesh, float dt);
+void saveTrajectory(const MeshData& mesh, const std::string& filename);
+void loadTrajectory(MeshData& mesh, const std::string& filename);
 
 fs::path locateAssetFolder(const fs::path& exePath)
 {
@@ -240,6 +254,7 @@ int main(int argc, char** argv)
 
     auto exePath = fs::absolute(argv[0]);
     fs::path assetsFolder = locateAssetFolder(exePath);
+    g_assetsFolder = assetsFolder;
     if (!fs::exists(assetsFolder))
     {
         std::cerr << "Pasta de assets não encontrada: " << assetsFolder.string() << std::endl;
@@ -250,22 +265,27 @@ int main(int argc, char** argv)
     std::cout << "Pasta de assets: " << assetsFolder.string() << std::endl;
     std::cout << "========================================" << std::endl;
     std::cout << "OBJ Selection Example" << std::endl;
-    std::cout << "Controles de Objeto:" << std::endl;
-    std::cout << "  TAB: Selecionar próximo objeto" << std::endl;
-    std::cout << "  W/S: Mover objeto selecionado para frente/trás" << std::endl;
-    std::cout << "  A/D: Mover objeto selecionado para esquerda/direita" << std::endl;
-    std::cout << "  Q/E: Mover objeto selecionado para cima/baixo" << std::endl;
-    std::cout << "  K/L: Diminuir/Aumentar escala do objeto selecionado" << std::endl;
+    std::cout << "Controles de Objeto (modo padrão):" << std::endl;
+    std::cout << "  TAB  : Selecionar próximo objeto" << std::endl;
+    std::cout << "  W/S  : Mover objeto para frente/trás" << std::endl;
+    std::cout << "  A/D  : Mover objeto para esquerda/direita" << std::endl;
+    std::cout << "  Q/E  : Mover objeto para cima/baixo" << std::endl;
+    std::cout << "  K/L  : Diminuir/Aumentar escala" << std::endl;
     std::cout << "  X/Y/Z: Selecionar eixo de rotação" << std::endl;
-    std::cout << "  R/T: Girar objeto selecionado (+/-15 graus no eixo)" << std::endl;
-    std::cout << "Câmera em Primeira Pessoa (tecle C para alternar):" << std::endl;
+    std::cout << "  R/T  : Girar objeto (+/-) no eixo selecionado" << std::endl;
+    std::cout << "Trajetória Paramétrica (M6):" << std::endl;
+    std::cout << "  F    : Adicionar posição atual como ponto de controle" << std::endl;
+    std::cout << "  G    : Iniciar/pausar animação da trajetória" << std::endl;
+    std::cout << "  H    : Limpar pontos de controle da trajetória" << std::endl;
+    std::cout << "  O    : Salvar trajetória em arquivo  (traj_<nome>.txt)" << std::endl;
+    std::cout << "  I    : Carregar trajetória de arquivo (traj_<nome>.txt)" << std::endl;
+    std::cout << "  +/-  : Aumentar/Diminuir velocidade da trajetória" << std::endl;
+    std::cout << "Câmera em Primeira Pessoa (C para alternar):" << std::endl;
     std::cout << "  W/A/S/D : Mover câmera" << std::endl;
     std::cout << "  Mouse   : Olhar ao redor (pitch/yaw)" << std::endl;
     std::cout << "  Scroll  : Zoom (altera FOV)" << std::endl;
     std::cout << "Controles de Iluminação:" << std::endl;
-    std::cout << "  1: Alternar Key Light (luz principal)" << std::endl;
-    std::cout << "  2: Alternar Fill Light (luz de preenchimento)" << std::endl;
-    std::cout << "  3: Alternar Back Light (luz de fundo)" << std::endl;
+    std::cout << "  1: Key Light | 2: Fill Light | 3: Back Light" << std::endl;
     std::cout << "  ESC: Sair" << std::endl;
     std::cout << "========================================" << std::endl;
 
@@ -335,6 +355,15 @@ int main(int argc, char** argv)
 
     selectedMeshIndex = 0;
     std::cout << "Objeto selecionado: " << meshes[selectedMeshIndex].name << std::endl;
+
+    for (auto& mesh : meshes)
+    {
+        std::string fname = "traj_" + mesh.name + ".txt";
+        auto dotPos = fname.find(".obj");
+        if (dotPos != std::string::npos) fname.erase(dotPos, 4);
+        fname += ".txt";
+        loadTrajectory(mesh, fname);
+    }
 
     GLint modelLoc = glGetUniformLocation(shaderProgram, "model");
     GLint colorLoc = glGetUniformLocation(shaderProgram, "objectColor");
@@ -417,6 +446,9 @@ int main(int argc, char** argv)
         glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
         projection = glm::perspective(glm::radians(fov), (float)width / (float)height, 0.1f, 100.0f);
+
+        for (auto& mesh : meshes)
+            updateTrajectory(mesh, deltaTime);
 
         if (projLoc != -1)
             glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
@@ -621,6 +653,82 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         wireframeMode = !wireframeMode;
         glPolygonMode(GL_FRONT_AND_BACK, wireframeMode ? GL_LINE : GL_FILL);
         std::cout << "Wireframe: " << (wireframeMode ? "ON" : "OFF") << std::endl;
+    }
+
+    if (!cameraMode && !meshes.empty())
+    {
+        MeshData& sel = meshes[selectedMeshIndex];
+
+        if (key == GLFW_KEY_F && action == GLFW_PRESS)
+        {
+            sel.trajectory.push_back(sel.position);
+            std::cout << "[Trajetória] Ponto " << sel.trajectory.size()
+                      << " adicionado: ("
+                      << sel.position.x << ", "
+                      << sel.position.y << ", "
+                      << sel.position.z << ")"
+                      << "  [objeto: " << sel.name << "]" << std::endl;
+        }
+
+        if (key == GLFW_KEY_G && action == GLFW_PRESS)
+        {
+            if (sel.trajectory.size() < 2)
+            {
+                std::cout << "[Trajetória] Precisa de pelo menos 2 pontos para animar." << std::endl;
+            }
+            else
+            {
+                sel.animating  = !sel.animating;
+                if (sel.animating)
+                {
+                    sel.trajSegment = 0;
+                    sel.trajT       = 0.0f;
+                    sel.position    = sel.trajectory[0];
+                }
+                std::cout << "[Trajetória] Animação "
+                          << (sel.animating ? "INICIADA" : "PAUSADA")
+                          << " [" << sel.name << "]" << std::endl;
+            }
+        }
+
+        if (key == GLFW_KEY_H && action == GLFW_PRESS)
+        {
+            sel.trajectory.clear();
+            sel.animating   = false;
+            sel.trajSegment = 0;
+            sel.trajT       = 0.0f;
+            std::cout << "[Trajetória] Pontos de controle removidos [" << sel.name << "]" << std::endl;
+        }
+
+        if (key == GLFW_KEY_O && action == GLFW_PRESS)
+        {
+            std::string base = sel.name;
+            auto dot = base.rfind('.');
+            if (dot != std::string::npos) base = base.substr(0, dot);
+            std::string fname = "traj_" + base + ".txt";
+            saveTrajectory(sel, fname);
+        }
+
+        if (key == GLFW_KEY_I && action == GLFW_PRESS)
+        {
+            std::string base = sel.name;
+            auto dot = base.rfind('.');
+            if (dot != std::string::npos) base = base.substr(0, dot);
+            std::string fname = "traj_" + base + ".txt";
+            loadTrajectory(sel, fname);
+        }
+
+        if ((key == GLFW_KEY_EQUAL || key == GLFW_KEY_KP_ADD) && action == GLFW_PRESS)
+        {
+            sel.trajSpeed = std::min(sel.trajSpeed + 0.1f, 5.0f);
+            std::cout << "[Trajetória] Velocidade: " << sel.trajSpeed << " [" << sel.name << "]" << std::endl;
+        }
+
+        if ((key == GLFW_KEY_MINUS || key == GLFW_KEY_KP_SUBTRACT) && action == GLFW_PRESS)
+        {
+            sel.trajSpeed = std::max(sel.trajSpeed - 0.1f, 0.05f);
+            std::cout << "[Trajetória] Velocidade: " << sel.trajSpeed << " [" << sel.name << "]" << std::endl;
+        }
     }
 }
 
@@ -902,4 +1010,90 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
     fov -= static_cast<float>(yoffset);
     if (fov < 1.0f)  fov =  1.0f;
     if (fov > 45.0f) fov = 45.0f;
+}
+
+// Baseado na representação paramétrica da reta (slide "Reta Paramétrica"): P(t) = P0 + (P1 - P0) * t,   t ∈ [0, 1]
+void updateTrajectory(MeshData& mesh, float dt)
+{
+    if (!mesh.animating || mesh.trajectory.size() < 2)
+        return;
+
+    int n = static_cast<int>(mesh.trajectory.size());
+
+    mesh.trajT += mesh.trajSpeed * dt;
+
+    while (mesh.trajT >= 1.0f)
+    {
+        mesh.trajT -= 1.0f;
+        mesh.trajSegment = (mesh.trajSegment + 1) % n;
+    }
+
+    int i0 = mesh.trajSegment;
+    int i1 = (mesh.trajSegment + 1) % n;
+
+    // Interpolação linear paramétrica:  P(t) = (1-t)*P0 + t*P1
+    const glm::vec3& P0 = mesh.trajectory[i0];
+    const glm::vec3& P1 = mesh.trajectory[i1];
+    mesh.position = (1.0f - mesh.trajT) * P0 + mesh.trajT * P1;
+}
+
+void saveTrajectory(const MeshData& mesh, const std::string& filename)
+{
+    if (mesh.trajectory.empty())
+    {
+        std::cout << "[Trajetória] Nenhum ponto para salvar." << std::endl;
+        return;
+    }
+
+    fs::path targetPath(filename);
+    if (targetPath.is_relative())
+        targetPath = g_assetsFolder / filename;
+
+    std::ofstream out(targetPath);
+    if (!out.is_open())
+    {
+        std::cerr << "[Trajetória] Erro ao abrir arquivo para escrita: " << targetPath.string() << std::endl;
+        return;
+    }
+
+    out << std::fixed << std::setprecision(6);
+    for (const auto& p : mesh.trajectory)
+        out << p.x << " " << p.y << " " << p.z << "\n";
+
+    out.close();
+    std::cout << "[Trajetória] " << mesh.trajectory.size()
+              << " ponto(s) salvos em '" << targetPath.string() << "'" << std::endl;
+}
+
+void loadTrajectory(MeshData& mesh, const std::string& filename)
+{
+    fs::path sourcePath(filename);
+    if (sourcePath.is_relative())
+        sourcePath = g_assetsFolder / filename;
+
+    std::ifstream in(sourcePath);
+    if (!in.is_open())
+    {
+        return;
+    }
+
+    int loaded = 0;
+    std::string line;
+    while (std::getline(in, line))
+    {
+        if (line.empty() || line[0] == '#') continue;
+        std::istringstream ss(line);
+        glm::vec3 p;
+        if (ss >> p.x >> p.y >> p.z)
+        {
+            mesh.trajectory.push_back(p);
+            ++loaded;
+        }
+    }
+
+    in.close();
+    if (loaded > 0)
+        std::cout << "[Trajetória] " << loaded
+                  << " ponto(s) carregados de '" << filename
+                  << "' [" << mesh.name << "]" << std::endl;
 }

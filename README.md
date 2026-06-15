@@ -15,3 +15,5 @@ Tarefa 4 - Adicionando iluminação (Deadline 28/05/2026) e Atividade Vivencial 
 Correção de texura do chimpanzé - Realizada em 25/05/2026 - Informações [aqui](CorrecaoTextura/CorrecaoTextura.md)
 
 Tarefa 5 - Adicionando uma câmera em primeira pessoa - Informações [aqui](Tarefa5/Tarefa5.md)
+
+Tarefa 6 - Definindo trajetórias para alguns objetos - Informações [aqui](Tarefa6/Tarefa6.md)
