@@ -17,3 +17,32 @@ Correção de texura do chimpanzé - Realizada em 25/05/2026 - Informações [aq
 Tarefa 5 - Adicionando uma câmera em primeira pessoa - Informações [aqui](Tarefa5/Tarefa5.md)
 
 Tarefa 6 - Definindo trajetórias para alguns objetos - Informações [aqui](Tarefa6/Tarefa6.md)
+
+**Tutorial de Comandos — `OBJSelection`**
+
+As seguintes teclas e controles estão disponíveis no programa `OBJSelection` (arquivo fonte: CGCCHibrido/src/OBJSelection.cpp).
+
+- TAB : Seleciona o próximo objeto na cena.
+- C : Alterna entre modo OBJETO (controle do objeto) e modo CÂMERA (primeira pessoa).
+- W / S : Move o objeto (ou câmera) para frente / trás.
+- A / D : Move o objeto (ou câmera) para esquerda / direita.
+- Q / E : Move o objeto para cima / baixo.
+- L / K : Aumenta / diminui a escala do objeto selecionado.
+- X / Y / Z : Seleciona o eixo de rotação para aplicar giros.
+- R / T : Gira o objeto no eixo selecionado (R = positivo, T = negativo).
+- P : Alterna modo wireframe (exibe malha em linha).
+- 1 / 2 / 3 : Alterna Key Light, Fill Light e Back Light respectivamente.
+- ESC : Fecha a aplicação.
+
+Controles de câmera (modo CÂMERA):
+- Mouse movimento : altera yaw/pitch (olhar ao redor).
+- Roda do mouse : altera o FOV (zoom).
+
+Trajetórias paramétricas (funcionalidade adicionada):
+- F : Adiciona a posição atual do objeto selecionado como ponto de controle da trajetória.
+- G : Inicia / pausa a animação da trajetória (o objeto percorre os pontos ciclicamente).
+- H : Limpa todos os pontos de controle da trajetória do objeto selecionado.
+- O : Salva a trajetória atual do objeto em um arquivo chamado `traj_<nome>.txt` — agora salvo na pasta de assets detectada pelo programa (ex.: `CGCCHibrido/assets/`).
+- I : Carrega a trajetória do arquivo `traj_<nome>.txt` presente na pasta de assets.
+- + / = (ou teclado numérico +) : Aumenta a velocidade da animação da trajetória.
+- - (ou teclado numérico -) : Diminui a velocidade da animação da trajetória.
