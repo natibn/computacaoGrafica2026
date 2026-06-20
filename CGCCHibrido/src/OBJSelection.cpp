@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <cmath>
 #include <iomanip>
+#include <nlohmann/json.hpp>
 
 namespace fs = std::filesystem;
 
@@ -32,6 +33,14 @@ struct PointLight
     bool enabled;
 };
 
+struct Material
+{
+    glm::vec3 ka = glm::vec3(0.1f);
+    glm::vec3 kd = glm::vec3(0.7f); 
+    glm::vec3 ks = glm::vec3(0.5f); 
+    float shininess = 32.0f;          
+};
+
 struct MeshData
 {
     GLuint VAO;
@@ -44,8 +53,10 @@ struct MeshData
     GLuint textureID;
     bool hasTexture;
     std::string textureName;
+    Material material;
 
     std::vector<glm::vec3> trajectory;
+    std::string curveType = "linear";
 
     bool   animating      = false;
     int    trajSegment    = 0;
@@ -88,6 +99,8 @@ glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
 float yaw   = -90.0f;
 float pitch =   0.0f;
 float fov   =  45.0f;
+float nearPlane = 0.1f;
+float farPlane = 100.0f;
 
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
@@ -105,21 +118,27 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 int setupShader();
-int loadSimpleOBJ(const std::string& filePath, int& nVertices, std::string& textureName);
+int loadSimpleOBJ(const std::string& filePath, int& nVertices, std::string& textureName, Material& material);
 GLuint loadTexture(const std::string& filePath);
 fs::path locateAssetFolder(const fs::path& exePath);
 
 void updateTrajectory(MeshData& mesh, float dt);
 void saveTrajectory(const MeshData& mesh, const std::string& filename);
 void loadTrajectory(MeshData& mesh, const std::string& filename);
+bool loadSceneConfig(const std::string& configFilePath, const fs::path& assetsFolder);
+glm::vec3 evaluateBezier(const std::vector<glm::vec3>& points, float t);
 
 fs::path locateAssetFolder(const fs::path& exePath)
 {
     fs::path candidates[] = {
         exePath.parent_path() / "assets" / "Modelos3D",
+        exePath.parent_path() / "CGCCHibrido" / "assets" / "Modelos3D",
         exePath.parent_path().parent_path() / "assets" / "Modelos3D",
+        exePath.parent_path().parent_path() / "CGCCHibrido" / "assets" / "Modelos3D",
         fs::current_path() / "assets" / "Modelos3D",
-        fs::current_path().parent_path() / "assets" / "Modelos3D"
+        fs::current_path() / "CGCCHibrido" / "assets" / "Modelos3D",
+        fs::current_path().parent_path() / "assets" / "Modelos3D",
+        fs::current_path().parent_path() / "CGCCHibrido" / "assets" / "Modelos3D"
     };
 
     for (const auto& candidate : candidates)
@@ -128,7 +147,7 @@ fs::path locateAssetFolder(const fs::path& exePath)
             return fs::canonical(candidate);
     }
 
-    return candidates[1];
+    return candidates[2];
 }
 
 const GLchar* vertexShaderSource = "#version 450\n"
@@ -161,6 +180,10 @@ const GLchar* fragmentShaderSource = "#version 450\n"
 "uniform vec3 lightColor[3];\n"
 "uniform float lightIntensity[3];\n"
 "uniform bool lightEnabled[3];\n"
+"uniform vec3 materialKa;\n"
+"uniform vec3 materialKd;\n"
+"uniform vec3 materialKs;\n"
+"uniform float materialShininess;\n"
 "out vec4 color;\n"
 "void main()\n"
 "{\n"
@@ -174,11 +197,10 @@ const GLchar* fragmentShaderSource = "#version 450\n"
 "    vec3 viewDir = normalize(viewPos - FragPos);\n"
 "    vec3 result = vec3(0.0);\n"
 "    \n"
-"    // Ambient light\n"
-"    float ambientStrength = 0.1;\n"
-"    result += ambientStrength * baseColor.rgb;\n"
+"    // Componente ambiente (usa Ka do material)\n"
+"    result += materialKa * baseColor.rgb;\n"
 "    \n"
-"    // Process each light\n"
+"    // Processa cada fonte de luz\n"
 "    for(int i = 0; i < 3; i++)\n"
 "    {\n"
 "        if(!lightEnabled[i]) continue;\n"
@@ -186,18 +208,17 @@ const GLchar* fragmentShaderSource = "#version 450\n"
 "        vec3 lightDir = normalize(lightPos[i] - FragPos);\n"
 "        float distance = length(lightPos[i] - FragPos);\n"
 "        \n"
-"        // Attenuation: 1 / (1 + 0.1*d + 0.02*d^2)\n"
+"        // Atenuação: 1 / (1 + 0.1*d + 0.02*d^2)\n"
 "        float attenuation = 1.0 / (1.0 + 0.1 * distance + 0.02 * distance * distance);\n"
 "        \n"
-"        // Diffuse reflection\n"
+"        // Componente difusa (usa Kd do material)\n"
 "        float diff = max(dot(norm, lightDir), 0.0);\n"
-"        vec3 diffuse = diff * lightColor[i] * baseColor.rgb * lightIntensity[i] * attenuation;\n"
+"        vec3 diffuse = materialKd * diff * lightColor[i] * baseColor.rgb * lightIntensity[i] * attenuation;\n"
 "        \n"
-"        // Specular reflection\n"
-"        float specularStrength = 0.5;\n"
+"        // Componente especular (usa Ks do material e Ns como shininess)\n"
 "        vec3 reflectDir = reflect(-lightDir, norm);\n"
-"        float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32.0);\n"
-"        vec3 specular = specularStrength * spec * lightColor[i] * lightIntensity[i] * attenuation;\n"
+"        float spec = pow(max(dot(viewDir, reflectDir), 0.0), materialShininess);\n"
+"        vec3 specular = materialKs * spec * lightColor[i] * lightIntensity[i] * attenuation;\n"
 "        \n"
 "        result += diffuse + specular;\n"
 "    }\n"
@@ -296,54 +317,77 @@ int main(int argc, char** argv)
     GLuint shaderProgram = setupShader();
     glUseProgram(shaderProgram);
 
-    glm::mat4 projection = glm::perspective(glm::radians(fov), (float)width / (float)height, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(fov), (float)width / (float)height, nearPlane, farPlane);
 
     GLint projLoc = glGetUniformLocation(shaderProgram, "projection");
     GLint viewLoc = glGetUniformLocation(shaderProgram, "view");
     std::cout << "Uniform locations: projection=" << projLoc << " view=" << viewLoc << std::endl;
 
-    std::vector<fs::path> objFiles = {
-        fs::path(assetsFolder) / "Cube.obj",
-        fs::path(assetsFolder) / "Suzanne.obj",
-        fs::path(assetsFolder) / "SuzanneSubdiv1.obj"
-    };
-    std::vector<glm::vec3> positions = { glm::vec3(-2.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(2.0f, 0.0f, 0.0f) };
-    std::vector<glm::vec3> baseColors = { glm::vec3(0.7f, 0.5f, 0.3f), glm::vec3(0.5f, 0.8f, 0.5f), glm::vec3(0.6f, 0.6f, 0.9f) };
-
-    for (size_t i = 0; i < objFiles.size(); i++)
+    std::string configPath = (assetsFolder / "scene_config.json").string();
+    bool configLoaded = false;
+    if (fs::exists(configPath))
     {
-        int nVertices;
-        std::string textureName;
-        std::string objPath = objFiles[i].string();
-        GLuint vao = loadSimpleOBJ(objPath, nVertices, textureName);
-        if (vao == 0 || nVertices <= 0)
+        std::cout << "Carregando scene_config.json..." << std::endl;
+        configLoaded = loadSceneConfig(configPath, assetsFolder);
+    }
+
+    if (!configLoaded)
+    {
+        std::cout << "Configuracao de cena nao encontrada ou com falha. Usando inicializacao padrao..." << std::endl;
+        std::vector<fs::path> objFiles = {
+            fs::path(assetsFolder) / "Cube.obj",
+            fs::path(assetsFolder) / "Suzanne.obj",
+            fs::path(assetsFolder) / "SuzanneSubdiv1.obj"
+        };
+        std::vector<glm::vec3> positions = { glm::vec3(-2.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(2.0f, 0.0f, 0.0f) };
+        std::vector<glm::vec3> baseColors = { glm::vec3(0.7f, 0.5f, 0.3f), glm::vec3(0.5f, 0.8f, 0.5f), glm::vec3(0.6f, 0.6f, 0.9f) };
+
+        for (size_t i = 0; i < objFiles.size(); i++)
         {
-            std::cerr << "Falha ao carregar OBJ: " << objPath << std::endl;
-            continue;
+            int nVertices;
+            std::string textureName;
+            Material material;
+            std::string objPath = objFiles[i].string();
+            GLuint vao = loadSimpleOBJ(objPath, nVertices, textureName, material);
+            if (vao == 0 || nVertices <= 0)
+            {
+                std::cerr << "Falha ao carregar OBJ: " << objPath << std::endl;
+                continue;
+            }
+
+            MeshData mesh;
+            mesh.VAO = vao;
+            mesh.vertexCount = nVertices;
+            mesh.name = objFiles[i].filename().string();
+            mesh.position = positions[i];
+            mesh.scale = glm::vec3(0.6f);
+            mesh.color = baseColors[i];
+            mesh.rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+            mesh.textureID = 0;
+            mesh.hasTexture = false;
+            mesh.textureName = textureName;
+            mesh.material = material;
+
+            if (!textureName.empty())
+            {
+                std::string texturePath = (objFiles[i].parent_path() / textureName).string();
+                mesh.textureID = loadTexture(texturePath);
+                mesh.hasTexture = true;
+                std::cout << "Textura carregada: " << texturePath << std::endl;
+            }
+
+            std::cout << "Mesh carregada: " << mesh.name << " | vertices=" << mesh.vertexCount << " | texture=" << mesh.hasTexture << std::endl;
+            meshes.push_back(mesh);
         }
 
-        MeshData mesh;
-        mesh.VAO = vao;
-        mesh.vertexCount = nVertices;
-        mesh.name = objFiles[i].filename().string();
-        mesh.position = positions[i];
-        mesh.scale = glm::vec3(0.6f);
-        mesh.color = baseColors[i];
-        mesh.rotation = glm::vec3(0.0f, 0.0f, 0.0f);
-        mesh.textureID = 0;
-        mesh.hasTexture = false;
-        mesh.textureName = textureName;
-
-        if (!textureName.empty())
+        for (auto& mesh : meshes)
         {
-            std::string texturePath = (objFiles[i].parent_path() / textureName).string();
-            mesh.textureID = loadTexture(texturePath);
-            mesh.hasTexture = true;
-            std::cout << "Textura carregada: " << texturePath << std::endl;
+            std::string fname = "traj_" + mesh.name + ".txt";
+            auto dotPos = fname.find(".obj");
+            if (dotPos != std::string::npos) fname.erase(dotPos, 4);
+            fname += ".txt";
+            loadTrajectory(mesh, fname);
         }
-
-        std::cout << "Mesh carregada: " << mesh.name << " | vertices=" << mesh.vertexCount << " | texture=" << mesh.hasTexture << std::endl;
-        meshes.push_back(mesh);
     }
 
     if (meshes.empty())
@@ -356,20 +400,15 @@ int main(int argc, char** argv)
     selectedMeshIndex = 0;
     std::cout << "Objeto selecionado: " << meshes[selectedMeshIndex].name << std::endl;
 
-    for (auto& mesh : meshes)
-    {
-        std::string fname = "traj_" + mesh.name + ".txt";
-        auto dotPos = fname.find(".obj");
-        if (dotPos != std::string::npos) fname.erase(dotPos, 4);
-        fname += ".txt";
-        loadTrajectory(mesh, fname);
-    }
-
     GLint modelLoc = glGetUniformLocation(shaderProgram, "model");
     GLint colorLoc = glGetUniformLocation(shaderProgram, "objectColor");
     GLint textureLoc = glGetUniformLocation(shaderProgram, "textureSampler");
     GLint useTextureLoc = glGetUniformLocation(shaderProgram, "useTexture");
     GLint viewPosLoc = glGetUniformLocation(shaderProgram, "viewPos");
+    GLint matKaLoc = glGetUniformLocation(shaderProgram, "materialKa");
+    GLint matKdLoc = glGetUniformLocation(shaderProgram, "materialKd");
+    GLint matKsLoc = glGetUniformLocation(shaderProgram, "materialKs");
+    GLint matShininessLoc = glGetUniformLocation(shaderProgram, "materialShininess");
     GLint lightPosLoc[3], lightColorLoc[3], lightIntensityLoc[3], lightEnabledLoc[3];
 
     for (int i = 0; i < 3; i++)
@@ -445,7 +484,7 @@ int main(int argc, char** argv)
 
         glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
-        projection = glm::perspective(glm::radians(fov), (float)width / (float)height, 0.1f, 100.0f);
+        projection = glm::perspective(glm::radians(fov), (float)width / (float)height, nearPlane, farPlane);
 
         for (auto& mesh : meshes)
             updateTrajectory(mesh, deltaTime);
@@ -486,6 +525,12 @@ int main(int argc, char** argv)
             model = glm::scale(model, mesh.scale);
 
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+
+            // Envia coeficientes ka, kd, ks e shininess do material do objeto
+            glUniform3fv(matKaLoc, 1, glm::value_ptr(mesh.material.ka));
+            glUniform3fv(matKdLoc, 1, glm::value_ptr(mesh.material.kd));
+            glUniform3fv(matKsLoc, 1, glm::value_ptr(mesh.material.ks));
+            glUniform1f(matShininessLoc, mesh.material.shininess);
 
             if ((int)i == selectedMeshIndex)
             {
@@ -732,7 +777,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     }
 }
 
-std::string loadMTL(const std::string& filePath)
+std::string loadMTL(const std::string& filePath, Material& material)
 {
     std::ifstream mtlFile(filePath);
     std::string line;
@@ -747,17 +792,34 @@ std::string loadMTL(const std::string& filePath)
         std::istringstream ss(line);
         std::string token;
         ss >> token;
+
         if (token == "map_Kd")
         {
             ss >> textureName;
-            break;
+        }
+        else if (token == "Ka")
+        {
+            ss >> material.ka.r >> material.ka.g >> material.ka.b;
+        }
+        else if (token == "Kd")
+        {
+            ss >> material.kd.r >> material.kd.g >> material.kd.b;
+        }
+        else if (token == "Ks")
+        {
+            ss >> material.ks.r >> material.ks.g >> material.ks.b;
+        }
+        else if (token == "Ns")
+        {
+            ss >> material.shininess;
+            // Ns do MTL costuma estar na faixa 0-1000; mantém como está para o shader
         }
     }
 
     return textureName;
 }
 
-int loadSimpleOBJ(const std::string& filePath, int& nVertices, std::string& textureName)
+int loadSimpleOBJ(const std::string& filePath, int& nVertices, std::string& textureName, Material& material)
 {
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec2> texCoords;
@@ -784,7 +846,7 @@ int loadSimpleOBJ(const std::string& filePath, int& nVertices, std::string& text
             std::string mtlFile;
             ss >> mtlFile;
             std::string mtlPath = filePath.substr(0, filePath.find_last_of("/\\") + 1) + mtlFile;
-            textureName = loadMTL(mtlPath);
+            textureName = loadMTL(mtlPath, material);
         }
         else if (word == "v")
         {
@@ -1013,28 +1075,240 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 }
 
 // Baseado na representação paramétrica da reta (slide "Reta Paramétrica"): P(t) = P0 + (P1 - P0) * t,   t ∈ [0, 1]
+glm::vec3 evaluateBezier(const std::vector<glm::vec3>& points, float t)
+{
+    if (points.empty()) return glm::vec3(0.0f);
+    std::vector<glm::vec3> temp = points;
+    int n = static_cast<int>(temp.size());
+    for (int r = 1; r < n; r++)
+    {
+        for (int i = 0; i < n - r; i++)
+        {
+            temp[i] = (1.0f - t) * temp[i] + t * temp[i + 1];
+        }
+    }
+    return temp[0];
+}
+
+// Baseado na representação paramétrica da reta (slide "Reta Paramétrica"): P(t) = P0 + (P1 - P0) * t,   t ∈ [0, 1]
 void updateTrajectory(MeshData& mesh, float dt)
 {
     if (!mesh.animating || mesh.trajectory.size() < 2)
         return;
 
-    int n = static_cast<int>(mesh.trajectory.size());
-
     mesh.trajT += mesh.trajSpeed * dt;
 
-    while (mesh.trajT >= 1.0f)
+    if (mesh.curveType == "bezier")
     {
-        mesh.trajT -= 1.0f;
-        mesh.trajSegment = (mesh.trajSegment + 1) % n;
+        if (mesh.trajT >= 1.0f)
+        {
+            mesh.trajT = fmod(mesh.trajT, 1.0f);
+        }
+        mesh.position = evaluateBezier(mesh.trajectory, mesh.trajT);
+    }
+    else
+    {
+        int n = static_cast<int>(mesh.trajectory.size());
+        while (mesh.trajT >= 1.0f)
+        {
+            mesh.trajT -= 1.0f;
+            mesh.trajSegment = (mesh.trajSegment + 1) % n;
+        }
+
+        int i0 = mesh.trajSegment;
+        int i1 = (mesh.trajSegment + 1) % n;
+
+        // Interpolação linear paramétrica:  P(t) = (1-t)*P0 + t*P1
+        const glm::vec3& P0 = mesh.trajectory[i0];
+        const glm::vec3& P1 = mesh.trajectory[i1];
+        mesh.position = (1.0f - mesh.trajT) * P0 + mesh.trajT * P1;
+    }
+}
+
+bool loadSceneConfig(const std::string& configFilePath, const fs::path& assetsFolder)
+{
+    std::ifstream file(configFilePath);
+    if (!file.is_open())
+    {
+        std::cerr << "Erro ao abrir scene_config: " << configFilePath << std::endl;
+        return false;
     }
 
-    int i0 = mesh.trajSegment;
-    int i1 = (mesh.trajSegment + 1) % n;
+    nlohmann::json config;
+    try
+    {
+        file >> config;
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Erro de parsing no JSON de configuracao: " << e.what() << std::endl;
+        return false;
+    }
 
-    // Interpolação linear paramétrica:  P(t) = (1-t)*P0 + t*P1
-    const glm::vec3& P0 = mesh.trajectory[i0];
-    const glm::vec3& P1 = mesh.trajectory[i1];
-    mesh.position = (1.0f - mesh.trajT) * P0 + mesh.trajT * P1;
+    // 1. Camera e Frustum
+    if (config.contains("camera"))
+    {
+        auto cam = config["camera"];
+        if (cam.contains("position") && cam["position"].is_array() && cam["position"].size() == 3)
+        {
+            cameraPos = glm::vec3(cam["position"][0].get<float>(), cam["position"][1].get<float>(), cam["position"][2].get<float>());
+        }
+        if (cam.contains("target") && cam["target"].is_array() && cam["target"].size() == 3)
+        {
+            cameraFront = glm::vec3(cam["target"][0].get<float>(), cam["target"][1].get<float>(), cam["target"][2].get<float>());
+            glm::vec3 front = glm::normalize(cameraFront);
+            pitch = glm::degrees(asin(front.y));
+            yaw = glm::degrees(atan2(front.z, front.x));
+        }
+        if (cam.contains("up") && cam["up"].is_array() && cam["up"].size() == 3)
+        {
+            cameraUp = glm::vec3(cam["up"][0].get<float>(), cam["up"][1].get<float>(), cam["up"][2].get<float>());
+        }
+        if (cam.contains("fov"))
+        {
+            fov = cam["fov"].get<float>();
+        }
+        if (cam.contains("near"))
+        {
+            nearPlane = cam["near"].get<float>();
+        }
+        if (cam.contains("far"))
+        {
+            farPlane = cam["far"].get<float>();
+        }
+    }
+
+    // 2. Luzes
+    if (config.contains("lights") && config["lights"].is_array())
+    {
+        auto lights = config["lights"];
+        for (const auto& l : lights)
+        {
+            if (!l.contains("name")) continue;
+            std::string name = l["name"];
+            PointLight* lightPtr = nullptr;
+            if (name == "keyLight") lightPtr = &keyLight;
+            else if (name == "fillLight") lightPtr = &fillLight;
+            else if (name == "backLight") lightPtr = &backLight;
+
+            if (lightPtr)
+            {
+                if (l.contains("position") && l["position"].is_array() && l["position"].size() == 3)
+                {
+                    lightPtr->position = glm::vec3(l["position"][0].get<float>(), l["position"][1].get<float>(), l["position"][2].get<float>());
+                }
+                if (l.contains("color") && l["color"].is_array() && l["color"].size() == 3)
+                {
+                    lightPtr->color = glm::vec3(l["color"][0].get<float>(), l["color"][1].get<float>(), l["color"][2].get<float>());
+                }
+                if (l.contains("intensity"))
+                {
+                    lightPtr->intensity = l["intensity"].get<float>();
+                }
+                if (l.contains("enabled"))
+                {
+                    lightPtr->enabled = l["enabled"].get<bool>();
+                }
+            }
+        }
+    }
+
+    // 3. Meshes/Objetos
+    if (config.contains("meshes") && config["meshes"].is_array())
+    {
+        meshes.clear(); // Limpa as meshes default
+        auto meshList = config["meshes"];
+        for (const auto& m : meshList)
+        {
+            if (!m.contains("filename")) continue;
+            std::string filename = m["filename"];
+            fs::path objPath = assetsFolder / filename;
+
+            int nVertices;
+            std::string textureName;
+            Material material;
+            GLuint vao = loadSimpleOBJ(objPath.string(), nVertices, textureName, material);
+            if (vao == 0 || nVertices <= 0)
+            {
+                std::cerr << "Falha ao carregar OBJ do config: " << objPath.string() << std::endl;
+                continue;
+            }
+
+            MeshData mesh;
+            mesh.VAO = vao;
+            mesh.vertexCount = nVertices;
+            mesh.name = filename;
+            
+            mesh.position = glm::vec3(0.0f);
+            if (m.contains("position") && m["position"].is_array() && m["position"].size() == 3)
+            {
+                mesh.position = glm::vec3(m["position"][0].get<float>(), m["position"][1].get<float>(), m["position"][2].get<float>());
+            }
+
+            mesh.rotation = glm::vec3(0.0f);
+            if (m.contains("rotation") && m["rotation"].is_array() && m["rotation"].size() == 3)
+            {
+                mesh.rotation = glm::vec3(m["rotation"][0].get<float>(), m["rotation"][1].get<float>(), m["rotation"][2].get<float>());
+            }
+
+            mesh.scale = glm::vec3(1.0f);
+            if (m.contains("scale") && m["scale"].is_array() && m["scale"].size() == 3)
+            {
+                mesh.scale = glm::vec3(m["scale"][0].get<float>(), m["scale"][1].get<float>(), m["scale"][2].get<float>());
+            }
+
+            mesh.color = glm::vec3(0.8f);
+            if (m.contains("color") && m["color"].is_array() && m["color"].size() == 3)
+            {
+                mesh.color = glm::vec3(m["color"][0].get<float>(), m["color"][1].get<float>(), m["color"][2].get<float>());
+            }
+
+            mesh.textureID = 0;
+            mesh.hasTexture = false;
+            mesh.textureName = textureName;
+            mesh.material = material;
+
+            if (!textureName.empty())
+            {
+                std::string texturePath = (objPath.parent_path() / textureName).string();
+                mesh.textureID = loadTexture(texturePath);
+                mesh.hasTexture = true;
+            }
+
+            // Animação/Trajetória
+            if (m.contains("animation"))
+            {
+                auto anim = m["animation"];
+                if (anim.contains("enabled"))
+                {
+                    mesh.animating = anim["enabled"].get<bool>();
+                }
+                if (anim.contains("speed"))
+                {
+                    mesh.trajSpeed = anim["speed"].get<float>();
+                }
+                if (anim.contains("curveType"))
+                {
+                    mesh.curveType = anim["curveType"].get<std::string>();
+                }
+                if (anim.contains("trajectory") && anim["trajectory"].is_array())
+                {
+                    for (const auto& pt : anim["trajectory"])
+                    {
+                        if (pt.is_array() && pt.size() == 3)
+                        {
+                            mesh.trajectory.push_back(glm::vec3(pt[0].get<float>(), pt[1].get<float>(), pt[2].get<float>()));
+                        }
+                    }
+                }
+            }
+
+            std::cout << "Mesh carregada (via config): " << mesh.name << " | vertices=" << mesh.vertexCount << " | curveType=" << mesh.curveType << " | trajSize=" << mesh.trajectory.size() << std::endl;
+            meshes.push_back(mesh);
+        }
+    }
+
+    return true;
 }
 
 void saveTrajectory(const MeshData& mesh, const std::string& filename)
