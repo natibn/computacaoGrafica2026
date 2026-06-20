@@ -18,6 +18,9 @@ Tarefa 5 - Adicionando uma câmera em primeira pessoa - Informações [aqui](Tar
 
 Tarefa 6 - Definindo trajetórias para alguns objetos - Informações [aqui](Tarefa6/Tarefa6.md)
 
+O programa `OBJSelection` carrega e inicializa os objetos, fontes de luz, posicionamento da câmera e parâmetros de frustum a partir de um arquivo de configuração no formato JSON:
+[`CGCCHibrido/assets/Modelos3D/scene_config.json`](file:///c:/Users/natib/computacaoGrafica2026/CGCCHibrido/assets/Modelos3D/scene_config.json)
+
 **Tutorial de Comandos — `OBJSelection`**
 
 As seguintes teclas e controles estão disponíveis no programa `OBJSelection` (arquivo fonte: CGCCHibrido/src/OBJSelection.cpp).
